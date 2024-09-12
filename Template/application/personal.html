@@ -145,8 +145,8 @@ input::-webkit-inner-spin-button {
         <div class="border-bottom mb-2" style="width: 23rem;">
           <div class="card-body text-center">
             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-            <h5 class="card-title">{{Name}}</h5>
-            <p class="card-text">{{Department}}</p>
+            <h5 class="card-title">{{name}}</h5>
+            <p class="card-text">{{department}}</p>
             <p class="card-text">{{role}}</p>
           </div>
         </div>
@@ -191,7 +191,7 @@ input::-webkit-inner-spin-button {
                     </a>
             </li>
           <li class="nav-item">
-            <a href="" class="nav-link text-dark">
+            <a href="{% url 'logout' %}" class="nav-link text-dark">
               <i class="fa fa-sign-out-alt mr-3 text-primary fa-fw"></i> <!-- Logout Icon -->
               Log Out
             </a>
@@ -421,7 +421,7 @@ input::-webkit-inner-spin-button {
                                     </div>
 
                                     <div class="d-flex justify-content-end mt-3">
-                                      <a onclick="goBack()" class="btn btn-primary mr-2">Previous Page</a>
+                                      <button onclick="goBack()" class="btn btn-primary mr-2">Previous Page</button>
                                       <button type="submit" class="btn btn-primary">Next Page</button>
                                   </div>
                       </div>

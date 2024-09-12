@@ -50,30 +50,37 @@ def generate_unique_admission_number():
 
 
 def index(request):
+    user_data = request.session.get('user_data', {})
+    
     if request.method == 'POST':
         form = Index(request.POST)
         if form.is_valid():
             # Generate a unique admission number
             admissionno = generate_unique_admission_number()
 
-   
-            
-            if form.is_valid() == False:
-                print(form.errors)  # Print form validation errors to debug
-
-
-
             # Store form data in the session if needed
             request.session['index'] = form.cleaned_data
             request.session['index']['date_of_birth'] = form.cleaned_data['date_of_birth'].isoformat()
             
+            # Redirect to the personal page
+            return redirect('personal')
+        else:
+            print(form.errors)  # Print form validation errors to debug
     else:
         form = Index()
 
-    return render(request, 'application/index.html', {'form': form})
+    context = {
+        'form': form,
+        'name': user_data.get('name', 'Guest'),
+        'Department': user_data.get('Department', 'Not Assigned'),
+        'role': user_data.get('role', 'Not Assigned'),
+    }
+
+    return render(request, 'application/index.html', context)
 
 
 def personal(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = Personal_Detail(request.POST)
         if form.is_valid():
@@ -81,7 +88,7 @@ def personal(request):
 
             # Optional: If you need to store any information in the session
             request.session['personal_data'] = form.cleaned_data
-
+            
             # Redirect to the next form or page
             return redirect('School_form')  # Replace with the actual URL name for the next page
         else:
@@ -91,9 +98,16 @@ def personal(request):
 
     else:
         form = Personal_Detail()
-    return render(request, 'application/personal.html', {'form': form})
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+    }
+    return render(request, 'application/personal.html', context)
 
 def School_form(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = SchoolDetailsForm(request.POST)
         if form.is_valid():
@@ -114,9 +128,17 @@ def School_form(request):
 
     else:
         form = Personal_Detail()
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/School_form.html', {'form': form})
 
 def bachelor(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = BachelorEducationForm(request.POST)
         if form.is_valid():
@@ -134,10 +156,19 @@ def bachelor(request):
 
     else:
         form = BachelorEducationForm()
+
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/Master.html', {'form': form})
 
 
 def Masterform(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = Master(request.POST)
         if form.is_valid():
@@ -155,10 +186,18 @@ def Masterform(request):
 
     else:
         form = Master()
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/Master.html', {'form': form})
 
 
 def experience(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = ProfessionalExperienceForm(request.POST)
         if form.is_valid():
@@ -177,10 +216,18 @@ def experience(request):
 
     else:
         form = ProfessionalExperienceForm()
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/experience.html', {'form': form})
 
 
 def guide_view(request):
+    user_data = request.session.get('user_data', {})
     if request.method == 'POST':
         form = GuideDetailsForm(request.POST)
         if form.is_valid():
@@ -199,10 +246,18 @@ def guide_view(request):
 
     else:
         form = GuideDetailsForm()
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/guide.html', {'form': form})
 
 
 def dc_member_view(request):
+    user_data = request.session.get('user_data', {})
     index = request.session.get('index', {})
     personal_data = request.session.get('personal_data', {})
     School_data = request.session.get('School_data', {})
@@ -242,11 +297,19 @@ def dc_member_view(request):
 
     else:
         form = DCMemberForm()
+    context = {
+        'form' : form,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
+
+    }
     return render(request, 'application/Dcmember.html', {'form': form})
 
 
 
 def approval_view(request):
+    user_data = request.session.get('user_data', {})
     # Check if the request is a POST request to handle form submission
     if request.method == 'POST':
         # Get the application number from the form data
@@ -269,9 +332,12 @@ def approval_view(request):
 
     context = {
         'applications': applications,
-        'selected_department': selected_department
+        'selected_department': selected_department,
+        'name' : user_data.get('name'),
+        'department' : user_data.get('Department'),
+        'role' : user_data.get('role')
     }
-
+    
     return render(request, 'application/Approve.html', context)  
 
 
@@ -351,10 +417,12 @@ def login(request):
 
     return render(request, "Auth/login.html")
 def logout(request):
+
     print('logout function called')
     auth_logout(request)
-    messages.success(request, 'You were logged out')
-    return redirect('login') 
+    messages.success(request,'You were logged out')
+    request.session.flush()  # Flush all session data
+    return render(request, "auth/login.html")
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4
@@ -710,5 +778,10 @@ def check_register_number(request):
         else:
             return HttpResponse("Register number does not exist.")
     return render(request, 'application/check_register_number.html')
+
+
+
+def edit(request):
+    return render(request, 'RegisterNumber.html')
 
 
