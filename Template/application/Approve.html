@@ -227,81 +227,74 @@ input::-webkit-inner-spin-button {
         </ul>
       </div>
     </div>
-    <form method="get" action="{% url 'approval' %}" autocomplete="off" enctype="multipart/form-data">
-        <div class="container">
-            <div class="heading"></div>
-                <div class="form-all">
-                    <div class="admission">
-                        {% csrf_token %}
-
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                    <label for="input2">Department</label>
-                                    <select name="department" id="dept" class="form-control" onchange="filterByDepartment()" required>
-                                        <option  value="" disabled hidden selected>Select</option>
-                                            <option value="ARTIFICIAL INTELLIGENCE AND DATA SCIENCE" name="AD">ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</option>
-                                            <option value="CIVIL ENGINEERING" name="CE">CIVIL ENGINEERING</option>
-                                            <option value="COMPUTER SCIENCE AND BUSINESS SYSTEM" name="CB">COMPUTER SCIENCE AND BUSINESS SYSTEM</option>
-                                            <option value="COMPUTER SCIENCE AND ENGINEERING" name="CSE">COMPUTER SCIENCE AND ENGINEERING</option>
-                                            <option value="ELECRICAL AND ELECTRONICS ENGINEERING" name="EEE">ELECRICAL AND ELECTRONICS ENGINEERING</option>
-                                            <option value="ELECTRONICS AND COMMUNICATION ENGINEERING" name="ECE">ELECTRONICS AND COMMUNICATION ENGINEERING</option>
-                                            <option value="INFORMATION TECHNOLOGY" name="IT">INFORMATION TECHNOLOGY</option>
-                                            <option value="MECHANICAL ENGINEERING" name="MECH">MECHANICAL ENGINEERING</option>
-                                            <option value="SCIENCE AND HUMANITIES" name="S&H">SCIENCE AND HUMANITIES</option>
-                                        </select>
-
-                                        </div>
-                                    </div>
-                            
-                                <!-- Table for Displaying Application Details -->
-                                <div class="scrollable-container">
-                                    <table border="1">
-                                        <thead>
-                                            <tr>
-                                                <th>Application No</th>
-                                                <th>Name</th>
-                                                <th>Age</th>
-                                                <th>Date of Birth</th>
-                                                <th>Email</th>
-                                                <th>Type of Registration</th>
-                                                <th>Highest Qualification</th>
-                                                <th>Department</th>
-                                                <th>Research Supervisor</th>
-                                                <th>Register Number</th>
-                                                <th>Area of Research</th>
-                                                <th>Approval</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{ application.application_no }}</td>
-                                                <td>{{ application.name }}</td>
-                                                <td>{{ application.age }}</td>
-                                                <td>{{ application.date_of_birth }}</td>
-                                                <td>{{ application.self_email_id }}</td>
-                                                <td>{{ application.type_of_registration }}</td>
-                                                <td>{{ application.highest_qualification }}</td>
-                                                <td>{{ application.department }}</td>
-                                                <td>{{ application.research_supervisor }}</td>
-                                                <td>{{ application.register_number }}</td>
-                                                <td>{{ application.area_research }}</td>
-                                                <td>
-                                                        Approved
-                                                        <a href="# ">
-                                                            <!-- {% csrf_token %} -->
-                                                            <button type="submit" class="btn btn-success">Approve</button>
-                                                        </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </form>
-                    </div>
-                </div>
-        </div>
-
+    <div class="container mt-5">
+        <form method="get" action="{% url 'approval' %}" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="dept">Department</label>
+                <select name="department" id="dept" class="form-control" onchange="filterByDepartment()" required>
+                    <option value="" disabled hidden selected>Select</option>
+                    <option value="ARTIFICIAL INTELLIGENCE AND DATA SCIENCE" name="AD">ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</option>
+                    <option value="CIVIL ENGINEERING" name="CE">CIVIL ENGINEERING</option>
+                    <option value="COMPUTER SCIENCE AND BUSINESS SYSTEM" name="CB">COMPUTER SCIENCE AND BUSINESS SYSTEM</option>
+                    <option value="COMPUTER SCIENCE AND ENGINEERING" name="CSE">COMPUTER SCIENCE AND ENGINEERING</option>
+                    <option value="ELECRICAL AND ELECTRONICS ENGINEERING" name="EEE">ELECRICAL AND ELECTRONICS ENGINEERING</option>
+                    <option value="ELECTRONICS AND COMMUNICATION ENGINEERING" name="ECE">ELECTRONICS AND COMMUNICATION ENGINEERING</option>
+                    <option value="INFORMATION TECHNOLOGY" name="IT">INFORMATION TECHNOLOGY</option>
+                    <option value="MECHANICAL ENGINEERING" name="MECH">MECHANICAL ENGINEERING</option>
+                    <option value="SCIENCE AND HUMANITIES" name="S&H">SCIENCE AND HUMANITIES</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Search</button>
+            
+            <!-- Table for Displaying Application Details -->
+            <div class="scrollable-container mt-4">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Application No</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Date of Birth</th>
+                            <th>Email</th>
+                            <th>Type of Registration</th>
+                            <th>Highest Qualification</th>
+                            <th>Department</th>
+                            <th>Research Supervisor</th>
+                            <th>Register Number</th>
+                            <th>Area of Research</th>
+                            <th>Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                        <tr>
+                            <td>{{ application.application_no }}</td>
+                            <td>{{ application.name }}</td>
+                            <td>{{ application.age }}</td>
+                            <td>{{ application.date_of_birth }}</td>
+                            <td>{{ application.self_email_id }}</td>
+                            <td>{{ application.type_of_registration }}</td>
+                            <td>{{ application.highest_qualification }}</td>
+                            <td>{{ application.department }}</td>
+                            <td>{{ application.research_supervisor }}</td>
+                            <td>{{ application.register_number }}</td>
+                            <td>{{ application.area_research }}</td>
+                            <td>
+                                <form method="post"
+                                 
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
                             </body>
                             </html>
                             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

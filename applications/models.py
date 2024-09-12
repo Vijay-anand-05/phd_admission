@@ -179,3 +179,12 @@ class Experience_Details(models.Model):
     to3 = models.IntegerField( blank=True, null=True)
     designation3 = models.CharField(max_length=255, blank=True, null=True)
     nature_of_work3 = models.CharField(max_length=255, blank=True, null=True)
+
+
+
+
+# models.py
+
+
+
+

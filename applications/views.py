@@ -66,9 +66,7 @@ def index(request):
             # Store form data in the session if needed
             request.session['index'] = form.cleaned_data
             request.session['index']['date_of_birth'] = form.cleaned_data['date_of_birth'].isoformat()
-
-            # Redirect to the personal page
-            return redirect('personal')
+            
     else:
         form = Index()
 
@@ -236,7 +234,7 @@ def dc_member_view(request):
             print(dc_member_data)
 
             # Redirect to the next form or page
-            return redirect('index')  # Replace with the actual URL name for the next page
+            return redirect('display_qrcode')  # Replace with the actual URL name for the next page
         else:
             # Handle form errors
             messages.error(request, 'Please correct the errors below.')
@@ -353,12 +351,10 @@ def login(request):
 
     return render(request, "Auth/login.html")
 def logout(request):
-
     print('logout function called')
     auth_logout(request)
-    messages.success(request,'You were logged out')
-    request.session.flush()  # Flush all session data
-    return render(request, "auth/login.html")
+    messages.success(request, 'You were logged out')
+    return redirect('login') 
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import A4

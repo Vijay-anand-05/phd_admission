@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup', views.signup, name="signup"),
     path('', views.login, name="login"),
+    path('logout/', views.logout, name='logout'),
     path('index/',views.index,name='index'),
     path('personal/', views.personal, name='personal'),
     path('School_form/', views.School_form, name='School_form'),
@@ -38,4 +39,10 @@ urlpatterns = [
     path('Dcmembers/check_register_number', views.check_register_number, name="check_register_number"),
     path('generate_qrcode/', views.generate_qrcode, name='generate_qrcode'),
     path('display_qrcode/', views.display_qrcode, name='display_qrcode'),
+
+
+
+
+
+
 ]

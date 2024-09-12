@@ -8,125 +8,176 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Ramco Institute of Technology</title>
 
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa; /* Light background for better contrast */
+        }
+        .container {
+            max-width: 800px; /* Adjust container width as needed */
+        }
+        .but {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .form-all {
+            padding: 20px;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
 <body>
     {% block header %}
-
-    <div class="rit"></div>
-
     <div class="container">
-        <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data"  onsubmit="hideButton()">
-        {% csrf_token %}
-            <div class="form-all">
-                <div class="admission">
+        <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data" onsubmit="showLoadingSpinner()" class="form-all">
+            {% csrf_token %}
+            <div class="admission">
                 <span class="title"><b>SIGN UP</b></span>
 
-            <!-- <div class="PERSONALINFORMATION">
-                <span class="title"><b>I. PERSONAL INFORMATION</b></span>  -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input1">Name</label>
-                        <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter the name" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" name="Name" id="Name" class="form-control" placeholder="Enter the name" aria-label="Name" required>
+                            <div class="invalid-feedback">Please provide a name.</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input2">User Name</label>
-                        <input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter user_name"
-                        required>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="user_name">User Name</label>
+                            <input type="text" name="user_name" id="user_name" class="form-control" placeholder="Enter user_name" aria-label="User Name" required>
+                            <div class="invalid-feedback">Please provide a user name.</div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input1">Staff_Id</label>
-                        <input type="text" name="staff_id" class="form-control" placeholder="Enter Staff_Id" required/>
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="staff_id">Staff_Id</label>
+                            <input type="text" name="staff_id" id="staff_id" class="form-control" placeholder="Enter Staff_Id" aria-label="Staff Id" required>
+                            <div class="invalid-feedback">Please provide a staff ID.</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input2">Department</label>
-                        <select name="Department" class="form-control"  required>
-                            <option  value="" disabled selected>Select</option>
-                                <option value="ARTIFICIAL INTELLIGENCE AND DATA SCIENCE" name="AD">ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</option>
-                                <option value="CIVIL ENGINEERING" name="CE">CIVIL ENGINEERING</option>
-                                <option value="COMPUTER SCIENCE AND BUSINESS SYSTEM" name="CB">COMPUTER SCIENCE AND BUSINESS SYSTEM</option>
-                                <option value="COMPUTER SCIENCE AND ENGINEERING" name="CSE">COMPUTER SCIENCE AND ENGINEERING</option>
-                                <option value="ELECRICAL AND ELECTRONICS ENGINEERING" name="EEE">ELECRICAL AND ELECTRONICS ENGINEERING</option>
-                                <option value="ELECTRONICS AND COMMUNICATION ENGINEERING" name="ECE">ELECTRONICS AND COMMUNICATION ENGINEERING</option>
-                                <option value="INFORMATION TECHNOLOGY" name="IT">INFORMATION TECHNOLOGY</option>
-                                <option value="MECHANICAL ENGINEERING" name="MECH">MECHANICAL ENGINEERING</option>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Department">Department</label>
+                            <select name="Department" id="Department" class="form-control" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="ARTIFICIAL INTELLIGENCE AND DATA SCIENCE">ARTIFICIAL INTELLIGENCE AND DATA SCIENCE</option>
+                                <option value="CIVIL ENGINEERING">CIVIL ENGINEERING</option>
+                                <option value="COMPUTER SCIENCE AND BUSINESS SYSTEM">COMPUTER SCIENCE AND BUSINESS SYSTEM</option>
+                                <option value="COMPUTER SCIENCE AND ENGINEERING">COMPUTER SCIENCE AND ENGINEERING</option>
+                                <option value="ELECTRICAL AND ELECTRONICS ENGINEERING">ELECTRICAL AND ELECTRONICS ENGINEERING</option>
+                                <option value="ELECTRONICS AND COMMUNICATION ENGINEERING">ELECTRONICS AND COMMUNICATION ENGINEERING</option>
+                                <option value="INFORMATION TECHNOLOGY">INFORMATION TECHNOLOGY</option>
+                                <option value="MECHANICAL ENGINEERING">MECHANICAL ENGINEERING</option>
                                 <option value="Transport">TRANSPORT</option>
                                 <option value="Office">OFFICE</option>
                                 <option value="Hostel">HOSTEL</option>
                             </select>
-
-                     </div>
+                            <div class="invalid-feedback">Please select a department.</div>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Email-ID</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter email" aria-label="Email" required>
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <select name="role" id="role" class="form-control" required>
+                                <option value="" disabled selected>Select</option>
+                                <option value="Principal">Principal</option>
+                                <option value="vice_principal">Vice Principal</option>
+                                <option value="GM">GM</option>
+                                <option value="HOD">HOD</option>
+                                <option value="Staff">Lab Incharge</option>
+                                <option value="office">Office</option>
+                                <option value="Technician">Technician</option>
+                                <option value="Deputywarden">Deputy Warden</option>
+                                <option value="Transport_Incharge">Transport Incharge</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a role.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" name="Password" id="password" class="form-control" placeholder="Enter Password" aria-label="Password" required>
+                            <input type="checkbox" onclick="togglePasswordVisibility()"> Show Password
+                            <div class="invalid-feedback">Please provide a password.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirm_Password">Confirm Password</label>
+                            <input type="password" name="confirm_Password" id="confirm_Password" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" required>
+                            <div class="invalid-feedback">Please confirm your password.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="but">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input1">Email-ID</label>
-                        <input type="email" name="email" class="form-control" placeholder="Enter email" required/>
 
-                    </div>
+            <div id="spinner" style="display: none; text-align: center; margin-top: 20px;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input2">Role</label>
-                        <select name="role" class="form-control" required>
-                            <option value="" disabled selected>Select</option>
-                            <option value="Principal">Principal</option>
-                            <option value="vice_principal">Vice_principal</option>
-                            <option value="GM">GM</option>
-                            <option value="HOD">HOD</option>
-                            <option value="Staff">Lab Incharge</option>
-                            <option value="office">Office</option>
-                            <option value="Technician">Technician</option>
-                            <option value="Deputywarden">Deputy Warden</option>
-                            <option value="Transport_Incharge ">Transport Incharge</option>
-                        </select>
-                    </div>
-                </div>
-
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input1">Password</label>
-                        <input type="Password" name="Password" class="form-control" placeholder="Enter Password" required/>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="input2">Confirm Password</label>
-                        <input type="Password" name="confirm_Password" class="form-control" placeholder="Enter confirm_Password" required/>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        </div>
-        <div class="but" style="margin-left: 850px;">
-            <button type="submit"  id="" class="btn btn-primary">Register</button>
         </form>
 
+        <div class="text-center mt-3">
+            <a href="{% url 'login' %}">Already have an account? Log in</a>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static 'js/script.js' %}"></script>
 
-    {% endblock %}
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm_Password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            confirmPasswordField.type = type;
+        }
 
+        function showLoadingSpinner() {
+            document.getElementById('spinner').style.display = 'block';
+        }
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_Password').value;
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match.');
+            }
+        });
+    </script>
+    {% endblock %}
 </body>
 </html>
