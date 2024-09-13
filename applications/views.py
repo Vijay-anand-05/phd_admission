@@ -16,7 +16,7 @@ import pandas as pd
 from num2words import num2words
 from django.core.mail import send_mail
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
 dept_code={"ARTIFICIAL INTELLIGENCE AND DATA SCIENCE":"AD",
                 "CIVIL ENGINEERING":"CE",
@@ -432,7 +432,9 @@ from PIL import Image
 from io import BytesIO  # Add this import statement
 import os
 
-def generate_pdf(request,register_number):
+def generate_pdf(request):
+    register_number=request.GET.get('reg_no')
+    print(register_number,"sahfkjshfkjdasghfjg")
     buffer = BytesIO()
     Register = ApplicationDetails.objects.get(register_number=register_number)
  
@@ -781,7 +783,16 @@ def check_register_number(request):
 
 
 
-def edit(request):
-    return render(request, 'RegisterNumber.html')
+# def edit(request):
+#     return render(request, 'RegisterNumber.html')
 
 
+def check_form(request):
+    if request.method == 'POST':
+        register_number = request.POST.get('register_number')
+        if ApplicationDetails.objects.filter(register_number=register_number).exists():
+            return HttpResponse("Register number checked")
+        else:
+            return HttpResponse("Else")
+        
+    return render(request, 'application/RegisterNumber.html')

@@ -41,6 +41,7 @@ urlpatterns = [
     path('display_qrcode/', views.display_qrcode, name='display_qrcode'),
 
 
+        path('check_form',views.check_form,name='check_form'),
 
 
 
