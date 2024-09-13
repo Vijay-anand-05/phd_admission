@@ -45,7 +45,7 @@ urlpatterns = [
         path('check_form',views.check_form,name='check_form'),
         path('edit_form/', views.edit_form, name="edit_form"),
       
-
+    path('upload_images/<str:register_number>/', views.upload_images, name='upload_images'),
 
 
 

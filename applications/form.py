@@ -153,3 +153,24 @@ class ProfessionalExperienceForm(forms.ModelForm):
 
 
 
+from django import forms
+from .models import UploadedImage
+
+class UploadImagesForm(forms.ModelForm):
+    class Meta:
+        model = UploadedImage
+        fields = ['image']
+
+    def __init__(self, *args, **kwargs):
+        self.application = kwargs.pop('application', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.application:
+            instance.application = self.application
+        if commit:
+            instance.save()
+        return instance
+
+

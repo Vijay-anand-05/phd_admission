@@ -732,8 +732,7 @@ def generate_pdf(request):
 
 # views.py
 import qrcode
-from django.http import HttpResponse
-from django.shortcuts import render
+
 
 # URL to encode in the QR code
 QR_URL = "http://192.168.137.218:8000/Dcmembers/check_register_number"
@@ -772,16 +771,12 @@ def edit_form(request):
 # import tkinter as tk
 # from tkinter import messagebox
 
-# Ensure this is your correct form
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import ApplicationDetails
 
 def check_register_number(request):
     if request.method == 'POST':
         register_number = request.POST.get('register_number')
         if ApplicationDetails.objects.filter(register_number=register_number).exists():
-            return redirect('index')
+            return redirect('upload_image')
         else:
             return HttpResponse("Register number does not exist.")
     return render(request, 'application/check_register_number.html')
@@ -802,8 +797,64 @@ def check_form(request):
         
     return render(request, 'application/RegisterNumber.html')
 
-# def check_form(reqeuest):
-#     a = check_register_number(reqeuest)
-#     print(a)
+
+# -----------------------------------------
+
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from applications.models import ApplicationDetails
+from .form import UploadImagesForm  # Replace with your actual form
+
+def upload_images(request, register_number):
+    if request.method == 'POST':
+        # Get the ApplicationDetails instance based on the register_number
+        application = get_object_or_404(ApplicationDetails, register_number=register_number)
+
+        # Process uploaded files
+        uploaded_files = request.FILES
+        file_paths = save_uploaded_images(uploaded_files, application.register_number)
+
+        # Optionally save file paths to the database or do something else
+        # ...
+
+        return HttpResponse("Images uploaded successfully!")
+    
+    # Render the upload form
+    form = UploadImagesForm()  # Replace with your actual form
+    return render(request, 'application/upload_image.html', {'form': form})
+
+
+import os
+from applications.models import ApplicationDetails
+
+def save_uploaded_images(file_dict, register_number):
+    # Create directory path for the given register number
+    base_directory = os.path.join('media', str(register_number))
+    os.makedirs(base_directory, exist_ok=True)
+
+    file_paths = {}
+
+    for field_name, file_obj in file_dict.items():
+        # Base file name using the original image name
+        base_file_name = f'{field_name}_{file_obj.name}'
+        file_path = os.path.join(base_directory, base_file_name)
+
+        # Check if the file already exists, if yes, append a number to avoid conflicts
+        counter = 1
+        while os.path.exists(file_path):
+            new_file_name = f'{field_name}_{counter}_{file_obj.name}'
+            file_path = os.path.join(base_directory, new_file_name)
+            counter += 1
+
+        # Save the image in chunks
+        with open(file_path, 'wb') as destination:
+            for chunk in file_obj.chunks():
+                destination.write(chunk)
+
+        # Store the file path for later use
+        file_paths[field_name] = file_path
+
+    return file_paths
 
 
