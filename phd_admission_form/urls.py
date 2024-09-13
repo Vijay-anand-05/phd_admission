@@ -40,8 +40,11 @@ urlpatterns = [
     path('generate_qrcode/', views.generate_qrcode, name='generate_qrcode'),
     path('display_qrcode/', views.display_qrcode, name='display_qrcode'),
 
+    
 
         path('check_form',views.check_form,name='check_form'),
+        path('edit_form/', views.edit_form, name="edit_form"),
+      
 
 
 

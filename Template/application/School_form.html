@@ -1,3 +1,5 @@
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -256,7 +258,7 @@ input::-webkit-inner-spin-button {
                               <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="input2">10th Std Total Mark</label>
-                                    <input type="number" name="total_mark_10th" id="10th_Std_Total_Mark" class="form-control" placeholder="Enter the 10th Mark" required/>
+                                    <input type="number" name="total_mark_10th" min="0" max="500" id="10th_Std_Total_Mark" class="form-control" placeholder="Enter the 10th Mark" required/>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -330,7 +332,7 @@ input::-webkit-inner-spin-button {
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="12th_Std_Total_Mark">12th Std Total Mark</label>
-                                                    <input type="number" name="total_mark_12th" id="12th_Std_Total_Mark" class="form-control" placeholder="Enter the 12th Mark" required>
+                                                    <input type="number" name="total_mark_12th" min="0" max="1200" id="12th_Std_Total_Mark" class="form-control" placeholder="Enter the 12th Mark" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,13 +427,19 @@ input::-webkit-inner-spin-button {
                       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
                       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                            <script>
-                              $(function() {
-                                $('#sidebarCollapse').on('click', function() {
-                                  $('#sidebar, #content').toggleClass('active');
-                                });
-                              });
-                            </script>
+                      <script>
+                        // Function to navigate back to the previous page
+                        function goBack() {
+                            window.history.back();
+                        }
+                
+                        $(function() {
+                            // Toggle sidebar and content visibility
+                            $('#sidebarCollapse').on('click', function() {
+                                $('#sidebar, #content').toggleClass('active');
+                            });
+                        });
+                    </script>
 
 
               </body>

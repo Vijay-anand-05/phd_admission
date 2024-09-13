@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -165,6 +168,8 @@ input::-webkit-inner-spin-button {
         <div class="py-4 px-3 mb-4 bg-light border-bottom">
           <div class="media d-flex align-items-center">
             <div class="media-body">
+                <img decoding="async" src="{% static 'images/RIT_logo.png' %}" alt="..." width="80" height="80" class="mr-3 rounded-bottom img-thumbnail shadow-sm">
+
               <h4 class="m-0">Ph.D Admission</h4>
               <p class="font-weight-normal text-muted mb-0">Ramco Institute of Technology</p>
             </div>
@@ -173,8 +178,8 @@ input::-webkit-inner-spin-button {
         <div class="border-bottom mb-2" style="width: 23rem;">
           <div class="card-body text-center">
             <i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-            <h5 class="card-title">{{Name}}</h5>
-            <p class="card-text">{{Department}}</p>
+            <h5 class="card-title">{{name}}</h5>
+            <p class="card-text">{{department}}</p>
             <p class="card-text">{{role}}</p>
           </div>
         </div>
@@ -193,18 +198,8 @@ input::-webkit-inner-spin-button {
                       Approval
                   </a>
           </li>
-          <li class="nav-item">
-            <a href=""class="nav-link text-dark">
-                      <i class="fa fa-check-square mr-3 text-primary fa-fw"></i>
-                      PDF
-                  </a>
-          </li>
-          <li class="nav-item">
-            <a href=""class="nav-link text-dark">
-                      <i class="fa fa-question-circle mr-3 text-primary fa-fw"></i>
-                      Approval
-                  </a>
-          </li>
+          
+          
 
           <li class="nav-item">
             <a href=""class="nav-link text-dark">
@@ -282,9 +277,10 @@ input::-webkit-inner-spin-button {
                             <td>{{ application.register_number }}</td>
                             <td>{{ application.area_research }}</td>
                             <td>
-                                <form method="post"
+                                <form method="post">
                                  
                                     {% csrf_token %}
+                                    
                                     <button type="submit" class="btn btn-success">Approve</button>
                                 </form>
                             </td>
@@ -300,13 +296,17 @@ input::-webkit-inner-spin-button {
                             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
                             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                  <script>
-                                    $(function() {
-                                      $('#sidebarCollapse').on('click', function() {
+                            <script>
+                                // Function to navigate back to the previous page
+                                
+                        
+                                $(function() {
+                                    // Toggle sidebar and content visibility
+                                    $('#sidebarCollapse').on('click', function() {
                                         $('#sidebar, #content').toggleClass('active');
-                                      });
                                     });
-                                  </script>
+                                });
+                            </script>
                             <script>
                                 // JavaScript function to submit the form when the department is selected
                                 function filterByDepartment() {

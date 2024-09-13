@@ -11,6 +11,10 @@ from django.core.paginator import Paginator
 from django.conf import settings
 from applications.form import userform,SchoolDetailsForm,Index,Personal_Detail,BachelorEducationForm,Master,DCMemberForm,GuideDetailsForm,ProfessionalExperienceForm
 from applications.models import User,PersonalDetails,BachelorEducationDetails,MasterEducationDetails,DCMember,GuideDetails,Experience_Details,ApplicationDetails,SchoolDetails
+
+
+
+
 from django.contrib import messages
 import pandas as pd
 from num2words import num2words
@@ -202,7 +206,7 @@ def experience(request):
         form = ProfessionalExperienceForm(request.POST)
         if form.is_valid():
             # Save the form data to the database
-            experience_detail_instance = form.save()
+            # experience_detail_instance = form.save()
 
             # Optional: If you need to store any information in the session
             request.session['experience_data'] = form.cleaned_data
@@ -232,7 +236,7 @@ def guide_view(request):
         form = GuideDetailsForm(request.POST)
         if form.is_valid():
             # Save the form data to the database
-            guide_detail_instance = form.save()
+            # guide_detail_instance = form.save()
 
             # Optional: If you need to store any information in the session
             request.session['guide_data'] = form.cleaned_data
@@ -759,7 +763,8 @@ def display_qrcode(request):
     return render(request, 'application/display_qrcode.html', context)
 
 
-
+def edit_form(request):
+    return render(request, 'application/edit_form.html')
 
 
 
@@ -791,8 +796,14 @@ def check_form(request):
     if request.method == 'POST':
         register_number = request.POST.get('register_number')
         if ApplicationDetails.objects.filter(register_number=register_number).exists():
-            return HttpResponse("Register number checked")
+            return redirect('edit_form')
         else:
-            return HttpResponse("Else")
+            return HttpResponse("Register number does not exist.")
         
     return render(request, 'application/RegisterNumber.html')
+
+# def check_form(reqeuest):
+#     a = check_register_number(reqeuest)
+#     print(a)
+
+
